@@ -38,6 +38,12 @@ type BlockHeader struct {
 
 	// Nonce used to generate the block.
 	Nonce uint32
+
+	//the size of the edge indices in the Cuckoo Cycle graph
+	//EdgeBits uint8
+
+	// solution of the PoW
+	CircleNonces []uint32
 }
 
 // blockHeaderLen is a constant that represents the number of bytes for a block
@@ -113,16 +119,35 @@ func NewBlockHeader(version int32, prevHash, merkleRootHash *chainhash.Hash,
 // readBlockHeader reads a bitcoin block header from r.  See Deserialize for
 // decoding block headers stored to disk, such as in a database, as opposed to
 // decoding from the wire.
+
+//TODO,LL,cuckoo,begin
+/*
 func readBlockHeader(r io.Reader, pver uint32, bh *BlockHeader) error {
 	return readElements(r, &bh.Version, &bh.PrevBlock, &bh.MerkleRoot,
 		(*uint32Time)(&bh.Timestamp), &bh.Bits, &bh.Nonce)
+}
+*/
+
+func readBlockHeader(r io.Reader, pver uint32, bh *BlockHeader) error {
+	return readElements(r, &bh.Version, &bh.PrevBlock, &bh.MerkleRoot,
+		(*uint32Time)(&bh.Timestamp), &bh.Bits, &bh.Nonce, &bh.CircleNonces)
 }
 
 // writeBlockHeader writes a bitcoin block header to w.  See Serialize for
 // encoding block headers to be stored to disk, such as in a database, as
 // opposed to encoding for the wire.
+/*
 func writeBlockHeader(w io.Writer, pver uint32, bh *BlockHeader) error {
 	sec := uint32(bh.Timestamp.Unix())
 	return writeElements(w, bh.Version, &bh.PrevBlock, &bh.MerkleRoot,
 		sec, bh.Bits, bh.Nonce)
 }
+*/
+
+func writeBlockHeader(w io.Writer, pver uint32, bh *BlockHeader) error {
+	sec := uint32(bh.Timestamp.Unix())
+	return writeElements(w, bh.Version, &bh.PrevBlock, &bh.MerkleRoot,
+		sec, bh.Bits, bh.Nonce, bh.CircleNonces)
+}
+
+//end

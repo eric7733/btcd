@@ -153,6 +153,8 @@ out:
 // submitBlock submits the passed block to network after ensuring it passes all
 // of the consensus validation rules.
 func (m *CPUMiner) submitBlock(block *btcutil.Block) bool {
+	fmt.Println("***cpuminer.go-submitBlock***")
+
 	m.submitBlockLock.Lock()
 	defer m.submitBlockLock.Unlock()
 

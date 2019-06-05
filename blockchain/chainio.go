@@ -1212,6 +1212,8 @@ func (b *BlockChain) initChainState() error {
 
 		// Load the raw block bytes for the best block.
 		blockBytes, err := dbTx.FetchBlock(&state.hash)
+		fmt.Println("blockBytes: ", blockBytes)
+
 		if err != nil {
 			return err
 		}
@@ -1312,6 +1314,7 @@ func dbFetchHeaderByHeight(dbTx database.Tx, height int32) (*wire.BlockHeader, e
 func dbFetchBlockByNode(dbTx database.Tx, node *blockNode) (*btcutil.Block, error) {
 	// Load the raw block bytes from the database.
 	blockBytes, err := dbTx.FetchBlock(&node.hash)
+	fmt.Println("blockBytes = ", blockBytes)
 	if err != nil {
 		return nil, err
 	}

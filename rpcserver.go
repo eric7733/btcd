@@ -3420,10 +3420,15 @@ func handleStop(s *rpcServer, cmd interface{}, closeChan <-chan struct{}) (inter
 
 // handleSubmitBlock implements the submitblock command.
 func handleSubmitBlock(s *rpcServer, cmd interface{}, closeChan <-chan struct{}) (interface{}, error) {
+
+	fmt.Println("***handleSubmitBlock***")
+
 	c := cmd.(*btcjson.SubmitBlockCmd)
 
 	// Deserialize the submitted block.
 	hexStr := c.HexBlock
+	fmt.Println("hexStr: ", hexStr)
+
 	if len(hexStr)%2 != 0 {
 		hexStr = "0" + c.HexBlock
 	}
@@ -3446,6 +3451,8 @@ func handleSubmitBlock(s *rpcServer, cmd interface{}, closeChan <-chan struct{})
 	if err != nil {
 		return fmt.Sprintf("rejected: %s", err.Error()), nil
 	}
+
+	fmt.Println("SyncMgr.SubmitBlock(), CircleNonces = ", block.MsgBlock().Header.CircleNonces)
 
 	rpcsLog.Infof("Accepted block %s via submitblock", block.Hash())
 	return nil, nil
@@ -4281,7 +4288,7 @@ func newRPCServer(config *rpcserverConfig) (*rpcServer, error) {
 		gbtWorkState:           newGbtWorkState(config.TimeSource),
 		helpCacher:             newHelpCacher(),
 		requestProcessShutdown: make(chan struct{}),
-		quit: make(chan int),
+		quit:                   make(chan int),
 	}
 	if cfg.RPCUser != "" && cfg.RPCPass != "" {
 		login := cfg.RPCUser + ":" + cfg.RPCPass

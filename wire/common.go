@@ -8,8 +8,10 @@ import (
 	"crypto/rand"
 	"encoding/binary"
 	"fmt"
+	"github.com/btcsuite/btcd/chaincfg/cuckoocycle"
 	"io"
 	"math"
+	"reflect"
 	"time"
 
 	"github.com/btcsuite/btcd/chaincfg/chainhash"
@@ -324,6 +326,23 @@ func readElement(r io.Reader, element interface{}) error {
 		}
 		*e = RejectCode(rv)
 		return nil
+
+	//TODO,LL,cuckoo,begin
+
+	case *[]uint32:
+		var cuckoocycles [cuckoocycle.ProofSize]uint32
+		for i := 0; i < cuckoocycle.ProofSize; i++ {
+			rv, err := binarySerializer.Uint32(r, binary.LittleEndian)
+			cuckoocycles[i] = rv
+			if err != nil {
+				return err
+			}
+		}
+		*e = cuckoocycles[:]
+		return nil
+
+		//end
+
 	}
 
 	// Fall back to the slower binary.Read if a fast path was not available
@@ -336,6 +355,9 @@ func readElement(r io.Reader, element interface{}) error {
 func readElements(r io.Reader, elements ...interface{}) error {
 	for _, element := range elements {
 		err := readElement(r, element)
+		fmt.Println(reflect.TypeOf(element))
+		fmt.Println("element: ", element)
+		fmt.Printf("%p\n", element)
 		if err != nil {
 			return err
 		}
@@ -453,6 +475,21 @@ func writeElement(w io.Writer, element interface{}) error {
 			return err
 		}
 		return nil
+
+		//TODO,LL,cuckoo,begin
+		//case *[]uint32:
+		//	var cuckoocycles [cuckoocycle.ProofSize]uint32
+		//	for i := 0; i < cuckoocycle.ProofSize; i++ {
+		//		cuckoocycles[i] = e[i]
+		//		err := binarySerializer.PutUint32(w, littleEndian, uint32(cuckoocycles[i]))
+		//
+		//		if err != nil {
+		//			return err
+		//		}
+		//	}
+		//	*e = cuckoocycles[:]
+		//	return nil
+		//end
 	}
 
 	// Fall back to the slower binary.Write if a fast path was not available

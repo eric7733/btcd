@@ -8,6 +8,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"errors"
+	"fmt"
 
 	"github.com/btcsuite/btcd/btcjson"
 	"github.com/btcsuite/btcd/chaincfg/chainhash"
@@ -395,6 +396,8 @@ func (r FutureSubmitBlockResult) Receive() error {
 //
 // See SubmitBlock for the blocking version and more details.
 func (c *Client) SubmitBlockAsync(block *btcutil.Block, options *btcjson.SubmitBlockOptions) FutureSubmitBlockResult {
+	fmt.Println("***rpcclient-mining.go-SubmitBlockAsync***")
+
 	blockHex := ""
 	if block != nil {
 		blockBytes, err := block.Bytes()
@@ -411,6 +414,7 @@ func (c *Client) SubmitBlockAsync(block *btcutil.Block, options *btcjson.SubmitB
 
 // SubmitBlock attempts to submit a new block into the bitcoin network.
 func (c *Client) SubmitBlock(block *btcutil.Block, options *btcjson.SubmitBlockOptions) error {
+	fmt.Println("***rpcclient-mining.go-SubmitBlock***")
 	return c.SubmitBlockAsync(block, options).Receive()
 }
 

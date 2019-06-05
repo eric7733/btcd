@@ -220,6 +220,9 @@ const (
 	// current chain tip. This is not a block validation rule, but is required
 	// for block proposals submitted via getblocktemplate RPC.
 	ErrPrevBlockNotBest
+
+	// ErrBadCuckooNonces indicates that verification of cuckoo nonces is not passed
+	ErrBadCuckooNonces
 )
 
 // Map of ErrorCode values back to their constant names for pretty printing.
@@ -267,6 +270,7 @@ var errorCodeStrings = map[ErrorCode]string{
 	ErrPreviousBlockUnknown:      "ErrPreviousBlockUnknown",
 	ErrInvalidAncestorBlock:      "ErrInvalidAncestorBlock",
 	ErrPrevBlockNotBest:          "ErrPrevBlockNotBest",
+	ErrBadCuckooNonces:           "ErrBadCuckooNonces",
 }
 
 // String returns the ErrorCode as a human-readable name.

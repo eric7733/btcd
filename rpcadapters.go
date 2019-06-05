@@ -5,6 +5,7 @@
 package main
 
 import (
+	"fmt"
 	"sync/atomic"
 
 	"github.com/btcsuite/btcd/blockchain"
@@ -248,6 +249,7 @@ func (b *rpcSyncMgr) IsCurrent() bool {
 // This function is safe for concurrent access and is part of the
 // rpcserverSyncManager interface implementation.
 func (b *rpcSyncMgr) SubmitBlock(block *btcutil.Block, flags blockchain.BehaviorFlags) (bool, error) {
+	fmt.Println("***rpcadapter.go-SubmitBlock***")
 	return b.syncMgr.ProcessBlock(block, flags)
 }
 
