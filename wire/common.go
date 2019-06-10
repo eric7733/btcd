@@ -11,7 +11,6 @@ import (
 	"github.com/btcsuite/btcd/chaincfg/cuckoocycle"
 	"io"
 	"math"
-	"reflect"
 	"time"
 
 	"github.com/btcsuite/btcd/chaincfg/chainhash"
@@ -355,9 +354,9 @@ func readElement(r io.Reader, element interface{}) error {
 func readElements(r io.Reader, elements ...interface{}) error {
 	for _, element := range elements {
 		err := readElement(r, element)
-		fmt.Println(reflect.TypeOf(element))
-		fmt.Println("element: ", element)
-		fmt.Printf("%p\n", element)
+		//fmt.Println(reflect.TypeOf(element))
+		//fmt.Println("element: ", element)
+		//fmt.Printf("%p\n", element)
 		if err != nil {
 			return err
 		}
@@ -511,7 +510,7 @@ func writeElements(w io.Writer, elements ...interface{}) error {
 
 // ReadVarInt reads a variable length integer from r and returns it as a uint64.
 func ReadVarInt(r io.Reader, pver uint32) (uint64, error) {
-	discriminant, err := binarySerializer.Uint8(r)
+	discriminant, err := binarySerializer.Uint8(r) // reads a single byte from the provided reader
 	if err != nil {
 		return 0, err
 	}
