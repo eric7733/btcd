@@ -329,17 +329,6 @@ func checkProofOfWork(header *wire.BlockHeader, powLimit *big.Int, flags Behavio
 		// The block hash must be less than the claimed target.
 		hash := header.BlockHash()
 
-		fmt.Println("validate.go, CircleNonces = ", header.CircleNonces)
-
-		/*
-			//TODO,LL,cuckoo,begin
-			if err := cuckoocycle.Verify(hash[:16],header.CircleNonces); err != nil {
-				str := fmt.Sprintf("Bad cuckoo nonces: %s", err.Error())
-				return ruleError(ErrBadCuckooNonces, str)
-			}
-			//end
-		*/
-
 		hashNum := HashToBig(&hash)
 		if hashNum.Cmp(target) > 0 {
 			str := fmt.Sprintf("block hash of %064x is higher than "+

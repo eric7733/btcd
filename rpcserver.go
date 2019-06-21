@@ -3451,9 +3451,6 @@ func handleSubmitBlock(s *rpcServer, cmd interface{}, closeChan <-chan struct{})
 	if err != nil {
 		return fmt.Sprintf("rejected: %s", err.Error()), nil
 	}
-
-	fmt.Println("SyncMgr.SubmitBlock(), CircleNonces = ", block.MsgBlock().Header.CircleNonces)
-
 	rpcsLog.Infof("Accepted block %s via submitblock", block.Hash())
 	return nil, nil
 }

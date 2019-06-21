@@ -83,9 +83,6 @@ var genesisBlock = wire.MsgBlock{
 		Timestamp:  time.Unix(0x495fab29, 0), // 2009-01-03 18:15:05 +0000 UTC
 		Bits:       0x1dffffff,               // 486604799 [00000000ffff0000000000000000000000000000000000000000000000000000]
 		Nonce:      0x7c2bac1d,               // 2083236893
-		//TODO,LL,cuckoo,begin
-		CircleNonces: []uint32{},
-		//end
 	},
 	Transactions: []*wire.MsgTx{&genesisCoinbaseTx},
 }
@@ -170,13 +167,6 @@ var simNetGenesisBlock = wire.MsgBlock{
 		Timestamp:  time.Unix(1401292357, 0), // 2014-05-28 15:52:37 +0000 UTC
 		Bits:       0x207fffff,               // 545259519 [7fffff0000000000000000000000000000000000000000000000000000000000]
 		Nonce:      2,
-		//TODO,LL,cuckoo,begin
-		// solution of the PoW
-		CircleNonces: []uint32{
-			0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-			0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		},
-		//end
 	},
 	Transactions: []*wire.MsgTx{&genesisCoinbaseTx},
 }
